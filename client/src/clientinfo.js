@@ -17,23 +17,22 @@ export function ClientInfo({openModal, closeModal, getNewUser, forceupdate, isMo
     
     const HandleClientSelection = (e) => {
         let idthere = false
-        console.log(e.target.id)
-        console.log("ClientIds before: ", clientIds.current)
+        
         if(clientIds.current.length !== 0) {           
 
             for (let index = 0; index < clientIds.current.length; index++) {
                 const id = clientIds.current[index];
-                console.log("Current Id on: ", id)
+                
                 if(e.target.id === id) {
-                    console.log("Id is same")
+                  
                     idthere = true
                     break
                 } else {
-                    console.log("Id is not same")
+                 
                     idthere = false
                 }
             }
-            console.log("otuasd: ", idthere)
+         
             
             if(idthere) {
                 clientIds.current = clientIds.current.filter(id => id !== e.target.id)
@@ -42,17 +41,14 @@ export function ClientInfo({openModal, closeModal, getNewUser, forceupdate, isMo
             }
 
         } else {
-            console.log("length is 0")
             clientIds.current = [...clientIds.current, e.target.id]
             
         }
-        console.log("ClientIds after: ", clientIds.current)
     }
 
 
     React.useEffect(() => {
             axios.get('/api/getallclient').then(res => {
-                console.log("response after getting user: ", res.data)
                 setclients(res.data)
             })
     },[forceupdate])
@@ -70,8 +66,6 @@ export function ClientInfo({openModal, closeModal, getNewUser, forceupdate, isMo
         if (clientIds.current.length === 0) return console.log('No Client Selected') 
         for (let index = 0; index < clientIds.current.length; index++) {
             axios.delete(`/api/deleteclient/id/${clientIds.current[index]}`).then(res => {
-                console.log("Response after deleting user: ", res)
-                // setgetclient(res.clientDeleted)
                 getNewUser()
             })
         }
@@ -87,11 +81,9 @@ export function ClientInfo({openModal, closeModal, getNewUser, forceupdate, isMo
 
     const ViewFile = (e) => {
         e.preventDefault()
-        console.log("Viewing File")
+    
         axios.get(`/api/getclientfile/query?path=${e.target.id}`).then(res => {
-            console.log("response after getting file: ", res.data)
-            console.log("res.data type: " ,typeof res.data)
-            // setsrc(res.data)
+       
             openModal()
             setmodalinfo({...modalinfo, fileData: res.data})
         })

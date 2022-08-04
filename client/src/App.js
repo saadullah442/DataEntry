@@ -34,10 +34,9 @@ function App() {
 
 
   const SubmitClient = (e) => {
-  console.log(name, num, city, country)
+ 
   e.preventDefault()
   axios.post('/api/addclient', {Name: name, Number: num, City: city, Country: country}).then(res =>{
-    console.log('response after uploading user: ', res)
     if(res.status === 201) {
       setname('')
       setnum('')
@@ -49,7 +48,7 @@ function App() {
   })
 
  
-  console.log("submit Client Ran", e.target)
+  
 
 
 
@@ -81,9 +80,7 @@ function App() {
       </div>
       <ClientInfo isModalOpen={state.isModalOpen} forceupdate={state.forceupdate} getNewUser={getNewUser} openModal={openModal} closeModal={closeModal}/>
 
-      {/* {forceupdate? <ClientInfo forceupdate={forceupdate}/> :
-        <ClientInfo/>
-      } */}
+   
       
     </>
   );

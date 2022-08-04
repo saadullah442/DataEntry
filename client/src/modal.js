@@ -22,7 +22,7 @@ export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModa
     React.useEffect(() => {
       
 
-        console.log("CliendIds: ", clientIds)
+      
         if(fileForm && !fileData) console.log('FileForm is true')
         if(isModalOpen) {
             openModal()
@@ -34,7 +34,7 @@ export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModa
    
     const GetNextUser = (idpos) => {
         
-        console.log('idpos: ',idpos)
+  
         if(idpos > clientIds.length - 1) {
             closeModal()
             return document.getElementById('modal').close()
@@ -54,7 +54,6 @@ export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModa
         
       
             axios.patch(`/api/updateclient/id/${clientdetail._id}`, clientdetail).then((res) => {
-                console.log("Response after updating user: ", res)
                 if(res.status === 201) {
                     
                     if(clientIds.length > 1) {
@@ -84,14 +83,10 @@ export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModa
             formData.append(file.name, file.files[0])
 
             axios.post(`/api/updateclientfile/id/${clientdetail._id}`, formData).then(res => {
-                console.log("response after uploading file: ", res)
-                
-                console.log("res status : ", res.status)
-                console.log("res status type: ", typeof res.status)
                 if(res.status === 201) {
-                    console.log("Resposne code is 201")
+                    
                     if(clientIds.length > 1) {
-                        console.log("Client Id Greater Than ONe")
+                       
                         for(let i=0; i < clientIds.length;i++) {
                             console.log("In For Loop")
                             if(res.data.id === clientIds[i]) {
@@ -100,7 +95,7 @@ export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModa
                             }
                         }
                     } else {
-                        console.log("Client Id NOt  Greater Than ONe")
+                       
                         document.getElementById('modal').close()
                         closeModal()
                     }
@@ -111,7 +106,7 @@ export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModa
     }
 
     if(fileData) {
-        console.log("File Data Exists")
+      
         return (
             <dialog className="modal" id='modal'>
                 <object data={`data:application/pdf;base64,${fileData}`} type="application/pdf" width={500} height={500}></object>
