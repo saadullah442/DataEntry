@@ -51,10 +51,8 @@ app.use(MyErrorHandler)
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 app.get('/api/getallclient/query?',MyAsyncWrapper( async(req,res) => {
-    console.log("getting Client")
     const skip = (Number(req.query.page) - 1) * 10
     const foundedClient = await ClientModel.find({}).skip(skip).limit(10)
-    console.log("FOunded CLient:", foundedClient)
     res.status(200).json(foundedClient)
 })
 )
@@ -95,7 +93,20 @@ app.patch('/api/updateclient/id/:clientid' , MyAsyncWrapper( async (req,res) => 
 )
 
 
-app.post('/api/updateclientfile/id/:clientid', upload.single('myfileinp') , MyAsyncWrapper( async (req,res) => {       
+const CheckClientFileExists = async (req,res,next) => {
+   
+    const clientWFile = await ClientModel.findById(req.params.clientid)
+    if(clientWFile.File !== 'no path provided') {
+        fs.unlink(clientWFile.File, () => {
+           
+            next()
+        })
+    } else {
+        next()
+    }
+}
+
+app.post('/api/updateclientfile/id/:clientid',CheckClientFileExists, upload.single('myfileinp') , MyAsyncWrapper( async (req,res) => {       
         const UpdateClientFile = await ClientModel.findByIdAndUpdate(req.params.clientid, {File: req.file.path}, {new: true})     
         res.status(201).json({msg: 'File uploaded', id: UpdateClientFile._id})
 })
@@ -105,7 +116,7 @@ app.delete('/api/deleteclient/id/:clientid' , MyAsyncWrapper( async (req,res) =>
     const clientFoundToDelete = await ClientModel.findById(req.params.clientid)
     if(clientFoundToDelete.File != 'no path provided') {
         fs.unlink(clientFoundToDelete.File, () => {
-            console.log("UNLINK successfull")
+           
         })
     }
     const clientDeleted = await ClientModel.deleteOne({_id: req.params.clientid})

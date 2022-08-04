@@ -60,12 +60,15 @@ export function MyModal ({getNewUser,state, openModal, closeModal, clientIds, fi
                        
                         for(let i=0; i < clientIds.length;i++) {
                             if(res.data.id === clientIds[i]) {
+                                document.getElementById(res.data.id).checked = false
+                                // document.getElementById(res.data.id).checked = false
                                 GetNextUser(i + 1)
                                 break
                             }
                         }
                     } else {
                         
+                        document.getElementById(res.data.id).checked = false
                         document.getElementById('modal').close()
                         closeModal()
                        
@@ -76,6 +79,7 @@ export function MyModal ({getNewUser,state, openModal, closeModal, clientIds, fi
     }
 
     const UploadUserFile = (e) => {
+        e.preventDefault()
             console.log("e: ", e)
             if(clientIds.length > 1)  e.preventDefault()
             console.log('in file form')
@@ -91,12 +95,13 @@ export function MyModal ({getNewUser,state, openModal, closeModal, clientIds, fi
                         for(let i=0; i < clientIds.length;i++) {
                             console.log("In For Loop")
                             if(res.data.id === clientIds[i]) {
+                                document.getElementById(res.data.id).checked = false
                                 GetNextUser(i + 1)
                                 break
                             }
                         }
                     } else {
-                        
+                        document.getElementById(res.data.id).checked = false
                         document.getElementById('modal').close()
                         closeModal()
                         e.defaultPrevented = false
