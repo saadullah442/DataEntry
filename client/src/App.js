@@ -1,13 +1,13 @@
-// import './App.css';
+
 import axios from "axios";
 import React from "react";
 
 import { ClientInfo } from "./clientinfo";
 import { reducer } from "./reducer";
 
-
 const currentstate = {
-  forceupdate: false,
+  page: 1,
+  clients: [],
   isModalOpen: false
 }
 
@@ -15,37 +15,53 @@ const currentstate = {
 
 function App() {
   const [state,executer] = React.useReducer(reducer,currentstate)
-  
   const [name,setname] = React.useState('')
   const [num,setnum] = React.useState()
   const [city,setcity] = React.useState('')
   const [country,setcountry] = React.useState('')
   
-  const getNewUser = () => {
-    executer({type: 'GETNEWUSERS'})
+  const NextPage = () => {
+    executer({type: 'NEXTPAGE'})
   }
-  
-  const closeModal = () => {
-    executer({type: "CLOSEMODAL"})
+
+  const PrevPage = () => {
+    executer({type: 'PREVPAGE'})
   }
+
+  const closeModal= () => {
+    axios.get(`/api/getallclient/query?page=${state.page}`).then(res => {
+        // executer({type: 'GETNEWUSERS', clients: res.data})
+        executer({type: "CLOSEMODAL", clients: res.data})
+      })
+     
+  }
+
   const openModal = () => {
-    executer({type: "OPENMODAL"})
+      executer({type: "OPENMODAL"})
   }
+
+  const getNewUser = () => {
+      axios.get(`/api/getallclient/query?page=${state.page}`).then(res => {
+          executer({type: 'GETNEWUSERS', clients: res.data})
+        })
+      
+  }
+ 
+
 
 
   const SubmitClient = (e) => {
- 
-  e.preventDefault()
-  axios.post('/api/addclient', {Name: name, Number: num, City: city, Country: country}).then(res =>{
-    if(res.status === 201) {
-      setname('')
-      setnum('')
-      setcity('')
-      setcountry('')
-      getNewUser()
-      // setupdate(true)
-    }
-  })
+    e.preventDefault()
+
+    axios.post('/api/addclient', {Name: name, Number: num, City: city, Country: country}).then(res =>{
+      if(res.status === 201) {
+        setname('')
+        setnum('')
+        setcity('')
+        setcountry('')
+        getNewUser()
+      }
+    })
 
  
   
@@ -69,7 +85,7 @@ function App() {
           </label>
           <label>
             Number 
-            <input type='Number' placeholder="Enter Number" value={num} onChange={(e) => setnum(e.target.value)} required/>
+            <input type='Number' placeholder="Enter Number" value={num} onChange={(e) => setnum(Number(e.target.value))} required/>
           </label>
           <label>
             Country
@@ -78,7 +94,7 @@ function App() {
           <input type="submit" value='Add Client'/>
         </form>
       </div>
-      <ClientInfo isModalOpen={state.isModalOpen} forceupdate={state.forceupdate} getNewUser={getNewUser} openModal={openModal} closeModal={closeModal}/>
+      <ClientInfo NPage={NextPage} PPage={PrevPage} closeModal={closeModal} openModal={openModal} getNewUser={getNewUser} state={state}/>
 
    
       

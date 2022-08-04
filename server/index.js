@@ -50,8 +50,11 @@ const upload = multer({storage: storagesetting, fileFilter: PdfFileFilter})
 app.use(MyErrorHandler)
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-app.get('/api/getallclient',MyAsyncWrapper( async(req,res) => {
-    const foundedClient = await ClientModel.find({})
+app.get('/api/getallclient/query?',MyAsyncWrapper( async(req,res) => {
+    console.log("getting Client")
+    const skip = (Number(req.query.page) - 1) * 10
+    const foundedClient = await ClientModel.find({}).skip(skip).limit(10)
+    console.log("FOunded CLient:", foundedClient)
     res.status(200).json(foundedClient)
 })
 )
@@ -72,6 +75,7 @@ app.get('/api/getclientfile/query?', MyAsyncWrapper( async (req,res) => {
 )
 
 app.post('/api/addclient' , MyAsyncWrapper( async (req,res) => {  
+    console.log("ADDED CLIENT")
     const clientCraeted = await ClientModel.create(req.body)
     res.status(201).json({msg: "Client Added"})
 })
@@ -99,7 +103,6 @@ app.post('/api/updateclientfile/id/:clientid', upload.single('myfileinp') , MyAs
 
 app.delete('/api/deleteclient/id/:clientid' , MyAsyncWrapper( async (req,res) => {
     const clientFoundToDelete = await ClientModel.findById(req.params.clientid)
-    console.log('clientFoundToDelete', clientFoundToDelete)
     if(clientFoundToDelete.File != 'no path provided') {
         fs.unlink(clientFoundToDelete.File, () => {
             console.log("UNLINK successfull")

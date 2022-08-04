@@ -4,9 +4,9 @@ import React from "react"
 
 
 
-export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModal, fileData}) {
+
+export function MyModal ({getNewUser,state, openModal, closeModal, clientIds, fileForm, fileData}) {
     
-    // const [nextmodal,setnextmodal] = React.useState(false)
    
     const [clientdetail,setclientdetail] = React.useState({
         City: '',
@@ -24,13 +24,13 @@ export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModa
 
       
         if(fileForm && !fileData) console.log('FileForm is true')
-        if(isModalOpen) {
+        if(state.isModalOpen) {
             openModal()
             document.getElementById('modal').showModal()
         }
-        if((fileForm || isModalOpen) && !fileData) GetNextUser(0)
+        if((fileForm || state.isModalOpen) && !fileData) GetNextUser(0)
         
-    },[isModalOpen])
+    },[state.isModalOpen])
    
     const GetNextUser = (idpos) => {
         
@@ -38,7 +38,7 @@ export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModa
         if(idpos > clientIds.length - 1) {
             closeModal()
             return document.getElementById('modal').close()
-             
+            
         }
         axios.get(`/api/getoneclient/id/${clientIds[idpos]}`).then(res => {
             if(res.status === 200) {
@@ -68,6 +68,7 @@ export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModa
                         
                         document.getElementById('modal').close()
                         closeModal()
+                       
                     }
                 }
             })
@@ -76,7 +77,7 @@ export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModa
 
     const UploadUserFile = (e) => {
             console.log("e: ", e)
-            e.preventDefault()
+            if(clientIds.length > 1)  e.preventDefault()
             console.log('in file form')
             const file = document.getElementById('myfileinp')
             const formData = new FormData()
@@ -95,9 +96,10 @@ export function MyModal ({clientIds, fileForm, closeModal, isModalOpen, openModa
                             }
                         }
                     } else {
-                       
+                        
                         document.getElementById('modal').close()
                         closeModal()
+                        e.defaultPrevented = false
                     }
                 }
             })
