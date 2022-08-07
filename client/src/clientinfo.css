@@ -5,10 +5,49 @@
     margin: 1rem 0;
 }
 
+.cl-edit-btn {
+    transition: transform 1s;
+}
+
+.cl-edit-btn:hover{
+    transform: scale(1.2,1.2);
+}
+
 .client-data-holder {
+    width: 100%;
     margin-bottom: 1rem;
     display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-shrink: 1;
     gap: 1rem;
-    background-color: rgb(173, 173, 199);
-    
+    background-color: rgb(44, 40, 40);
+    color: white;   
+}
+.client-data-holder h4 {
+    display: inline-block;
+}
+
+.vw-file-btn {
+    background-color: rgb(223, 223, 223);
+    color: rgb(26, 24, 24);
+    /* outline: 2px solid white; */
+}
+
+/* animation class for view file button */
+.btn-anim {
+    background-color: red;
+    transform: rotate(360deg);
+}
+/* End of Animation Class */
+
+.page-changer {
+    display: flex;
+    gap: 1rem;
+}
+
+.main-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

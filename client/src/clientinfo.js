@@ -76,9 +76,9 @@ export function ClientInfo({NPage, PPage, openModal, closeModal, getNewUser, sta
 
     const ViewFile = (e) => {
         e.preventDefault()
-    
+        
         axios.get(`/api/getclientfile/query?path=${e.target.id}`).then(res => {
-       
+           
             openModal()
             setmodalinfo({...modalinfo, fileData: res.data})
         })
@@ -105,33 +105,33 @@ export function ClientInfo({NPage, PPage, openModal, closeModal, getNewUser, sta
     return (
 
         
-        <section>
-        <div className='btn-holder'>
-                <button onClick={UpdateUser}>Update</button>
-                <button onClick={DeleteUser}>Delete</button>
-                <button onClick={HandleFileInput}>UploadFile</button>
-        </div>
-        {
-          state.clients.map(({_id,Name,Country,City,Number,File}) => {
-                return (
-                    <div key={_id} className='client-data-holder'>
-                    <input id={_id} onClick={HandleClientSelection} className='select-box' type='checkbox'/>
-                    <h4>{Name}</h4>
-                    <h4>{Number}</h4>
-                    <h4>{Country}</h4>
-                    <h4>{City}</h4>
-                    <button id={File} onClick={ViewFile} disabled={File === 'no path provided'? true :false}>{File === 'no path provided'?'No File': 'View File'}</button>
-                </div>
-                )
-            })
-        }
-        {state.isModalOpen && <MyModal openModal={openModal} getNewUser={getNewUser} closeModal={closeModal} state={state} fileData={modalinfo.fileData} clientIds={modalinfo.clientIds} fileForm={modalinfo.fileForm}/>}
-        
-        <div>
-            <button disabled={state.page === 1? true: false} className='prv-btn' onClick={PrevPage}>Previous</button>
-            <button disabled={state.clients.length === 10? false: true } className='prv-btn' onClick={NextPage}>Next</button>
-        </div>
-        
+        <section className='main-display'>
+            <div className='btn-holder'>
+                <button className='cl-edit-btn' onClick={UpdateUser}>Update</button>
+                <button className='cl-edit-btn' onClick={DeleteUser}>Delete</button>
+                <button className='cl-edit-btn' onClick={HandleFileInput}>UploadFile</button>
+            </div>
+            {
+            state.clients.map(({_id,Name,Country,City,Number,File}) => {
+                    return (
+                        <div key={_id} className='client-data-holder'>
+                        <input id={_id} onClick={HandleClientSelection} className='select-box' type='checkbox'/>
+                        <span><h4>Name:</h4> {Name}</span>
+                        <span><h4>Number:</h4> {Number}</span>
+                        <span><h4>Country:</h4> {Country}</span>
+                        <span><h4>City:</h4> {City}</span>
+                        <button className='vw-file-btn' id={File} onClick={ViewFile} disabled={File === 'no path provided'? true :false}>{File === 'no path provided'?'No File': 'View File'}</button>
+                    </div>
+                    )
+                })
+            }
+            {state.isModalOpen && <MyModal openModal={openModal} getNewUser={getNewUser} closeModal={closeModal} state={state} fileData={modalinfo.fileData} clientIds={modalinfo.clientIds} fileForm={modalinfo.fileForm}/>}
+            
+            <div className='page-changer'>
+                <button disabled={state.page === 1? true: false} className='prv-btn' onClick={PrevPage}>Previous</button>
+                <button disabled={state.clients.length === 10? false: true } className='prv-btn' onClick={NextPage}>Next</button>
+            </div>
+            
         </section>
 
         

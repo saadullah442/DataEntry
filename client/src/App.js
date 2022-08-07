@@ -1,4 +1,4 @@
-
+import './App.css'
 import axios from "axios";
 import React from "react";
 
@@ -72,26 +72,26 @@ function App() {
 
   return (
     <>
-      <div>
-        <h1>Insert Data</h1>
+      <div className='sub-form-holder'>
+        <h2>Insert Data</h2>
         <form onSubmit={SubmitClient} className='client-sub-form'>
           <label>
             Name 
-            <input type='text' placeholder="Enter Name" value={name} onChange={(e) => setname(e.target.value)} required/>
-          </label>
-          <label>
-            City 
-            <input type='text' placeholder="Enter City" value={city} onChange={(e) => setcity(e.target.value)}  required/>
-          </label>
-          <label>
-            Number 
-            <input type='Number' placeholder="Enter Number" value={num} onChange={(e) => setnum(Number(e.target.value))} required/>
+            <input className="name" type='text' placeholder="Enter Name" value={name} onChange={(e) => setname(e.target.value)} required/>
           </label>
           <label>
             Country
-            <input type='text' placeholder="Enter Country" value={country} onChange={(e) => setcountry(e.target.value)} required/>
+            <input className="country" type='text' placeholder="Enter Country" value={country} onChange={(e) => setcountry(e.target.value)} required/>
           </label>
-          <input type="submit" value='Add Client'/>
+          <label>
+            City 
+            <input className="city" type='text' placeholder="Enter City" value={city} onChange={(e) => setcity(e.target.value)}  required/>
+          </label>
+          <label>
+            Number 
+            <input className="number" type='Number' placeholder="Enter Number" value={num} onChange={(e) => setnum(Number(e.target.value))} required/>
+          </label>
+          <input className="sub-btn" type="submit" value='Add Client'/>
         </form>
       </div>
       <ClientInfo NPage={NextPage} PPage={PrevPage} closeModal={closeModal} openModal={openModal} getNewUser={getNewUser} state={state}/>

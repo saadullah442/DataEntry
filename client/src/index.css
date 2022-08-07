@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,3 +15,38 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+button {
+  border: 0;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgb(37, 34, 34);
+  color: white;
+  cursor: pointer;
+  width: 10vw;
+  min-width: 5rem;
+}
+
+input[type=checkbox] {
+  cursor: pointer;
+
+}
+
+input[type=number],input[type=text],text[type=submit] {
+  border: 0;
+  outline: 0;
+  border-radius: 5px;
+}
+
+
+input:focus{
+  outline: 0;  
+}
+
+
+button[disabled] {
+  opacity: 0.5;
+ 
+  cursor: not-allowed;
+} 
