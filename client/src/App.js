@@ -94,7 +94,7 @@ function App() {
             Number 
             <input className="number" type='Number' placeholder="Enter Number" value={num} onChange={(e) => setnum(Number(e.target.value))} required/>
           </label>
-          <input className="sub-btn" type="submit" value='Add Client'/>
+            <input className="sub-btn" type="submit" value='Add Client'/>
         </form>
       </div>
       <ClientInfo NPage={NextPage} PPage={PrevPage} closeModal={closeModal} openModal={openModal} getNewUser={getNewUser} state={state}/>

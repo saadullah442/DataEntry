@@ -79,6 +79,11 @@ export function MyModal ({RemoveClientIds, getNewUser,state, openModal, closeMod
        
     }
 
+    const HandleCloseBtn = () => {
+        document.getElementById('modal').close()
+        closeModal()
+    }
+
     const UploadUserFile = (e) => {
         e.preventDefault()
             console.log("e: ", e)
@@ -118,11 +123,9 @@ export function MyModal ({RemoveClientIds, getNewUser,state, openModal, closeMod
     if(fileData) {
       
         return (
-            <dialog className="modal" id='modal'>
-                <object data={`data:application/pdf;base64,${fileData}`} type="application/pdf" width={500} height={500}></object>
-                <button style={{display: 'inline-block'}} onClick={() => {
-                    document.getElementById('modal').close()
-                    closeModal()}}>
+            <dialog className="file-modal" id='modal'>
+                <object className="pdf-holder" data={`data:application/pdf;base64,${fileData}`} type="application/pdf" ></object>
+                <button style={{display: 'inline-block'}} onClick={HandleCloseBtn}>
                     Close
                 </button>
             </dialog>
@@ -161,11 +164,9 @@ export function MyModal ({RemoveClientIds, getNewUser,state, openModal, closeMod
                     </>
                 }
                     <input type='submit' value={fileForm? 'Upload PDF': 'Update User'}/>
+                    
                 </form>
-                <button style={{display: 'inline-block'}} onClick={() => {
-
-                document.getElementById('modal').close()
-                closeModal()}}>Close</button>
+                <button style={{display: 'inline-block'}} onClick={HandleCloseBtn}>Close</button>
             </dialog>
             
         </>
