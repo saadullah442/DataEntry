@@ -6,6 +6,7 @@ import { ClientInfo } from "./clientinfo";
 import { reducer } from "./reducer";
 
 const currentstate = {
+
   page: 1,
   clients: [],
   isModalOpen: false
@@ -20,6 +21,8 @@ function App() {
   const [city,setcity] = React.useState('')
   const [country,setcountry] = React.useState('')
   
+
+
   const NextPage = () => {
     executer({type: 'NEXTPAGE'})
   }

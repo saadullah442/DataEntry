@@ -7,7 +7,7 @@
   color: white;
 }
 
-.client-sub-form {
+/* .client-sub-form {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -30,7 +30,7 @@
  input[type=text],input[type="number"] {
   padding: 10px;
   width: 100%;
-}
+} */
 
 
 @media (max-width: 30rem) {

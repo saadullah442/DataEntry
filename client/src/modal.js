@@ -1,11 +1,11 @@
 import axios from "axios"
 import React from "react"
+import './modal.css'
 
 
 
 
-
-export function MyModal ({getNewUser,state, openModal, closeModal, clientIds, fileForm, fileData}) {
+export function MyModal ({RemoveClientIds, getNewUser,state, openModal, closeModal, clientIds, fileForm, fileData}) {
     
    
     const [clientdetail,setclientdetail] = React.useState({
@@ -61,13 +61,14 @@ export function MyModal ({getNewUser,state, openModal, closeModal, clientIds, fi
                         for(let i=0; i < clientIds.length;i++) {
                             if(res.data.id === clientIds[i]) {
                                 document.getElementById(res.data.id).checked = false
+                                RemoveClientIds(res.data.id)
                                 // document.getElementById(res.data.id).checked = false
                                 GetNextUser(i + 1)
                                 break
                             }
                         }
                     } else {
-                        
+                        RemoveClientIds(res.data.id)
                         document.getElementById(res.data.id).checked = false
                         document.getElementById('modal').close()
                         closeModal()
@@ -96,12 +97,14 @@ export function MyModal ({getNewUser,state, openModal, closeModal, clientIds, fi
                             console.log("In For Loop")
                             if(res.data.id === clientIds[i]) {
                                 document.getElementById(res.data.id).checked = false
+                                RemoveClientIds(res.data.id)
                                 GetNextUser(i + 1)
                                 break
                             }
                         }
                     } else {
                         document.getElementById(res.data.id).checked = false
+                        RemoveClientIds(res.data.id)
                         document.getElementById('modal').close()
                         closeModal()
                         e.defaultPrevented = false
@@ -117,7 +120,7 @@ export function MyModal ({getNewUser,state, openModal, closeModal, clientIds, fi
         return (
             <dialog className="modal" id='modal'>
                 <object data={`data:application/pdf;base64,${fileData}`} type="application/pdf" width={500} height={500}></object>
-                <button onClick={() => {
+                <button style={{display: 'inline-block'}} onClick={() => {
                     document.getElementById('modal').close()
                     closeModal()}}>
                     Close
@@ -129,14 +132,14 @@ export function MyModal ({getNewUser,state, openModal, closeModal, clientIds, fi
     return (
         <>
             <dialog className="modal" id='modal'>
-                <form onSubmit={fileForm? UploadUserFile : UpdateUser}>
+                <form className="modal-form" onSubmit={fileForm? UploadUserFile : UpdateUser}>
                 {fileForm? 
-                <>
-                    <h4>User {clientdetail.Name} with Number {clientdetail.Number}</h4>
-                    <label>
-                        <input  type='file' accept="application/pdf" id="myfileinp" name="myfileinp" className="myfileinp" required/>
-                    </label>
-                </>
+                    <>
+                        <h4>User {clientdetail.Name} with Number {clientdetail.Number}</h4>
+                        <label>
+                            <input  type='file' accept="application/pdf" id="myfileinp" name="myfileinp" className="myfileinp" required/>
+                        </label>
+                    </>
                 : 
                     <>
                         <label> 
@@ -157,9 +160,9 @@ export function MyModal ({getNewUser,state, openModal, closeModal, clientIds, fi
                         </label>
                     </>
                 }
-                <input type='submit' value={fileForm? 'Upload PDF': 'Update User'}/>
+                    <input type='submit' value={fileForm? 'Upload PDF': 'Update User'}/>
                 </form>
-                <button onClick={() => {
+                <button style={{display: 'inline-block'}} onClick={() => {
 
                 document.getElementById('modal').close()
                 closeModal()}}>Close</button>

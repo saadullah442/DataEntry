@@ -8,6 +8,10 @@ import { MyModal } from './modal'
 
 export function ClientInfo({NPage, PPage, openModal, closeModal, getNewUser, state}) {
     const clientIds = React.useRef([])
+
+    const RemoveClientIds = (myid) => {
+        clientIds.current = clientIds.current.filter(id => id !== myid)
+    }
     
     const [modalinfo,setmodalinfo] = React.useState({
         fileForm: false,
@@ -49,16 +53,17 @@ export function ClientInfo({NPage, PPage, openModal, closeModal, getNewUser, sta
         if (clientIds.current.length === 0) return console.log('No Client Selected')
             openModal()
             setmodalinfo({clientIds: [...clientIds.current], fileForm: false})
-            clientIds.current = []
+           
     }
     const DeleteUser = (e) => {
         e.preventDefault()
         if (clientIds.current.length === 0) return console.log('No Client Selected') 
         for (let index = 0; index < clientIds.current.length;index++) {     
             axios.delete(`/api/deleteclient/id/${clientIds.current[index]}`).then(res => {
+                clientIds.current.filter(id => id !== clientIds.current[index])
                 if(index === clientIds.current.length - 1) {
                     getNewUser()
-                    clientIds.current= []
+                    clientIds.current = []
                 }
             })
 
@@ -71,7 +76,7 @@ export function ClientInfo({NPage, PPage, openModal, closeModal, getNewUser, sta
         if (clientIds.current.length === 0) return console.log('No Client Selected')
         openModal()
         setmodalinfo({clientIds: [...clientIds.current], fileForm: true})
-        clientIds.current = []
+       
     }
 
     const ViewFile = (e) => {
@@ -107,9 +112,9 @@ export function ClientInfo({NPage, PPage, openModal, closeModal, getNewUser, sta
         
         <section className='main-display'>
             <div className='btn-holder'>
-                <button className='cl-edit-btn' onClick={UpdateUser}>Update</button>
-                <button className='cl-edit-btn' onClick={DeleteUser}>Delete</button>
-                <button className='cl-edit-btn' onClick={HandleFileInput}>UploadFile</button>
+                <button  className='cl-edit-btn' onClick={UpdateUser}>Update</button>
+                <button  className='cl-edit-btn' onClick={DeleteUser}>Delete</button>
+                <button  className='cl-edit-btn' onClick={HandleFileInput}>UploadFile</button>
             </div>
             {
             state.clients.map(({_id,Name,Country,City,Number,File}) => {
@@ -125,7 +130,7 @@ export function ClientInfo({NPage, PPage, openModal, closeModal, getNewUser, sta
                     )
                 })
             }
-            {state.isModalOpen && <MyModal openModal={openModal} getNewUser={getNewUser} closeModal={closeModal} state={state} fileData={modalinfo.fileData} clientIds={modalinfo.clientIds} fileForm={modalinfo.fileForm}/>}
+            {state.isModalOpen && <MyModal RemoveClientIds={RemoveClientIds} openModal={openModal} getNewUser={getNewUser} closeModal={closeModal} state={state} fileData={modalinfo.fileData} clientIds={modalinfo.clientIds} fileForm={modalinfo.fileForm}/>}
             
             <div className='page-changer'>
                 <button disabled={state.page === 1? true: false} className='prv-btn' onClick={PrevPage}>Previous</button>

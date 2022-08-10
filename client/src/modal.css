@@ -1,0 +1,9 @@
+.modal-form > label > input[type=text] {
+    background-color: rgb(44, 40, 40);
+    color: white;
+}
+
+.modal-form > label > input[type=number] {
+    background-color: rgb(44, 40, 40);
+    color: white;
+}
