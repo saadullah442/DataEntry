@@ -44,6 +44,7 @@
 .page-changer {
     display: flex;
     gap: 1rem;
+    margin-bottom: 1rem
 }
 
 .main-display {
